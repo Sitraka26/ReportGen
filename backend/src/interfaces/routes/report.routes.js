@@ -1,9 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const authMiddleware = require('../middlewares/auth.middleware')
+const {
+  createReport,
+  getReports,
+  deleteReport
+} = require('../controllers/report.controller')
 
-router.get('/', authMiddleware, (req, res) => {
-  res.json({ message: 'Liste des rapports - à implémenter' })
-})
+router.get('/', authMiddleware, getReports)
+router.post('/', authMiddleware, createReport)
+router.delete('/:id', authMiddleware, deleteReport)
 
 module.exports = router
