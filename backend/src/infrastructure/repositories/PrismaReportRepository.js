@@ -12,13 +12,15 @@ class PrismaReportRepository extends ReportRepository {
   }
 
   async findById(id) {
-    const report = await prisma.report.findUnique({
-      where: { id },
-      include: { dataSources: true }
-    })
-    return report ? new Report(report) : null
-  }
-
+  const report = await prisma.report.findUnique({
+    where: { id },
+    include: { dataSources: true }
+  })
+  if (!report) return null
+  const r = new Report(report)
+  r.dataSources = report.dataSources
+  return r
+}
   async create(reportData) {
     const report = await prisma.report.create({ data: reportData })
     return new Report(report)
